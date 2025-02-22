@@ -9,7 +9,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   //get users detail from frontend
   const { fullName, email, username, password } = req.body;
-  console.log("email", email);
+  console.log("body: ", fullName, username, email, password);
 
   //validation of user data-not empty
   if (
@@ -19,20 +19,30 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   //check user details if already exist:by username and email
-  const existedUser = User.findOne({
+  const existedUser = await User.findOne({
     $or: [{ username }, { email }],
   });
 
   if (existedUser) {
-    throw new ApiError(409, "user with this email or username already exist");
+    throw new ApiError(400, "user with this email or username already exist");
   }
 
   //check for images,check for avatar
   const avatarLocalPath = req.files?.avatar[0]?.path;
-  const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  //const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  let coverImageLocalPath;
+  if (
+    req.file &&
+    Array.isArray(req.files.coverImage) &&
+    req.files.coverImage.length > 0
+  ) {
+    coverImageLocalPath = req.files?.coverImage[0].path;
+  }
+  console.log("avatar local path: ", avatarLocalPath);
 
   if (!avatarLocalPath) {
-    throw new ApiError(400, "avatar file is required");
+    console.error("avatar local path in missing");
+    throw new ApiError(400, "avatar file avatarLocalPath is required");
   }
 
   //if availabe then upload to cloudinary then check successful avatar uploaded on clpudinary
@@ -45,11 +55,11 @@ const registerUser = asyncHandler(async (req, res) => {
   //create user object
   const user = await User.create({
     fullName,
-    avatar: avatar.url,
+    avatar: avatar?.url,
     coverImage: coverImage?.url || "",
     email,
     password,
-    username: username.toLowerCase(),
+    username: username?.toLowerCase(),
   });
 
   //remove password and refresh token fiield from response
@@ -66,7 +76,7 @@ const registerUser = asyncHandler(async (req, res) => {
   //return result otherwise return error
   return res
     .status(201)
-    .json(new ApiResponse(200, createdUser, " registrated succefull"));
+    .json(new ApiResponse(200, createdUser, " registrated sucessfull"));
 });
 
 export { registerUser };
