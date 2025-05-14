@@ -181,3 +181,109 @@
     ```
   - **401 Unauthorized:** Invalid or missing token.
   - **500 Internal Server Error:** Server error.
+
+## Additional Documentation
+
+### Application Setup
+- **File:** `src/app.js`
+- **Description:**
+  - Sets up the Express application with middleware for CORS, JSON parsing, URL encoding, static file serving, and cookie parsing.
+  - Imports and uses the `user.routes.js` for handling user-related API endpoints.
+  - Base route: `/api/v1/users`
+
+### Database Connection
+- **File:** `src/index.js`
+- **Description:**
+  - Connects to MongoDB using the `connectDB` function.
+  - Starts the Express server on the specified port.
+
+### Constants
+- **File:** `src/constant.js`
+- **Description:**
+  - Contains the constant `DB_NAME` which specifies the database name as `videotube`.
+
+### User Controller
+- **File:** `src/controllers/user.controller.js`
+- **Description:**
+  - Contains logic for user-related operations such as registration, login, logout, token refresh, password change, and profile updates.
+  - Key functions:
+    - `registerUser`: Handles user registration.
+    - `loginUser`: Authenticates a user and generates tokens.
+    - `logoutUser`: Logs out a user and clears tokens.
+    - `refreshAccessToken`: Refreshes the access token.
+    - `changeCurrentPassword`: Allows a user to change their password.
+    - `getCurrentUser`: Fetches the currently logged-in user's details.
+    - `updateAccountDetails`: Updates user account details.
+    - `updateUserAvatar`: Updates the user's avatar.
+    - `updateUserCoverImage`: Updates the user's cover image.
+
+### Authentication Middleware
+- **File:** `src/middlewares/auth.middleware.js`
+- **Description:**
+  - Middleware to verify JSON Web Tokens (JWT) for protected routes.
+  - Function: `verifyJWT`
+
+### File Upload Middleware
+- **File:** `src/middlewares/multer.middleware.js`
+- **Description:**
+  - Configures `multer` for handling file uploads.
+  - Stores files in the `public/temp` directory with unique filenames.
+
+### Subscription Model
+- **File:** `src/models/subscription.model.js`
+- **Description:**
+  - Defines the `Subscription` schema for managing user subscriptions.
+  - Fields:
+    - `subscriber`: Reference to the subscribing user.
+    - `channel`: Reference to the subscribed channel.
+
+### Video Model
+- **File:** `src/models/videos.model.js`
+- **Description:**
+  - Defines the `Video` schema for managing video uploads.
+  - Fields:
+    - `videoFile`: URL of the video file.
+    - `thumbnail`: URL of the video thumbnail.
+    - `owner`: Reference to the user who uploaded the video.
+    - `title`: Title of the video.
+    - `description`: Description of the video.
+    - `duration`: Duration of the video in seconds.
+    - `views`: Number of views.
+    - `isPublished`: Boolean indicating if the video is published.
+
+### User Routes
+- **File:** `src/routes/user.routes.js`
+- **Description:**
+  - Defines routes for user-related operations.
+  - Routes:
+    - `/register`: POST - User registration.
+    - `/login`: POST - User login.
+    - `/logout`: POST - User logout (protected).
+    - `/refresh-Token`: POST - Refresh access token.
+    - `/change-password`: POST - Change password (protected).
+    - `/current-user`: GET - Get current user details (protected).
+    - `/update-account`: PATCH - Update account details (protected).
+    - `/avatar`: PATCH - Update avatar (protected).
+    - `/cover-image`: PATCH - Update cover image (protected).
+    - `/c/c:username`: GET - Get user channel profile (protected).
+
+### Utility Classes
+- **File:** `src/utils/ApiError.js`
+- **Description:**
+  - Custom error class for handling API errors.
+  - Fields:
+    - `statusCode`: HTTP status code.
+    - `message`: Error message.
+    - `errors`: Additional error details.
+
+- **File:** `src/utils/ApiResponse.js`
+- **Description:**
+  - Utility for standardizing API responses.
+
+- **File:** `src/utils/asyncHandler.js`
+- **Description:**
+  - Utility for handling asynchronous route handlers and catching errors.
+
+- **File:** `src/utils/cloudinary.js`
+- **Description:**
+  - Utility for uploading files to Cloudinary.
