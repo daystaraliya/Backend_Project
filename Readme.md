@@ -1,4 +1,39 @@
-#Backend project(It is like you tube)
+# Backend Project (Similar to YouTube)
+
+## Project Description
+This project is a backend implementation of a YouTube-like platform. It provides APIs for user management, video uploads, subscriptions, and other features required for a video-sharing platform. The backend is built using Node.js and Express, with MongoDB as the database.
+
+### Key Features
+- **User Management:**
+  - User registration, login, and logout.
+  - Profile updates, including avatar and cover image uploads.
+  - Password management and token-based authentication.
+
+- **Video Management:**
+  - Uploading and managing video files and thumbnails.
+  - Storing video metadata such as title, description, duration, and views.
+  - Support for publishing and unpublishing videos.
+
+- **Subscription System:**
+  - Users can subscribe to other channels.
+  - Manage subscriptions and fetch channel profiles.
+
+- **Watch History:**
+  - Track and fetch the watch history of users.
+
+### Technologies Used
+- **Backend Framework:** Node.js with Express.
+- **Database:** MongoDB.
+- **Authentication:** JSON Web Tokens (JWT).
+- **File Uploads:** Multer for handling file uploads and Cloudinary for cloud storage.
+- **Utilities:** Custom error handling, API response standardization, and async handler utilities.
+
+### Use Cases
+- A platform for users to upload, share, and manage videos.
+- A subscription-based system to follow channels and receive updates.
+- A history tracking system to keep track of watched videos.
+
+This project serves as a foundation for building a full-fledged video-sharing platform.
 
 ## API Endpoints Documentation
 
